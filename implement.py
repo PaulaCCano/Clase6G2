@@ -13,18 +13,38 @@ def main():
                        \nUsted ingresó la opción: ''' ))
 
         if menu == 1:
-            if servicio_hospitalario.verNumeroMascotas() >= 10:
-                print("No hay espacio dispnible...")
-                continue
+            tipo_ = print('Seleccione: 1.Felino 2.Canino.  =>')
+            if tipo_ == '1':
+                if servicio_hospitalario.verNumeroMascotasF() >= 7:
+                    print("No hay espacio disponible para felinos...")
+                    continue
+            elif tipo_ == '2':
+                if servicio_hospitalario.verNumeroMascotasC() >= 7:
+                    print("No hay espacio disponible para caninos...")
+                    continue                
+            
             historia = int(input(" ingrese la historia clinica de la mascota: "))
             if servicio_hospitalario.verificarExiste(historia) == False:
                 nombre=input("Ingrese el nombre de la mascota: ")
-                tipo=input("Ingrese el tipo de mascota (felino o canino): ")
+                tipo= tipo_
+                if tipo == '1':
+                    tipo = 'Felino'
+                elif tipo == '2':
+                    tipo = 'Canino'
                 peso=int(input("Ingrese el peso de la mascota: "))
                 fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
-                medicamento=Medicamento()
-                medicamento.asignarNombre(input("Ingrese nombre del medicamento: "))
-                medicamento.asignarDosis(int(input("Ingrese dosis del medicamento: ")))
+                nm = int(input('Ingrese la cantidad de medicamentos de la mascota: '))
+                lista_med = []
+
+                for i in range (0,nm):
+                    nombre_medicamento = input('Ingrese el nombre: ')
+                    dosis = int(input('Ingrese la dosis: '))
+
+                    medicamento=Medicamento()
+                    medicamento.asignarNombre(nombre_medicamento)
+                    medicamento.asignarDosis(dosis)
+                    lista_med.appen(medicamento)
+                
                 mas = Mascota()
                 mas.asignarNombre(nombre)
                 mas.asignarHistoria(historia)
@@ -32,7 +52,11 @@ def main():
                 mas.asignarTipo(tipo)
                 mas.asignarFecha(fecha)
                 mas.asignarMedicamento(medicamento)
-                servicio_hospitalario.ingresarMascota(mas)
+                
+                if tipo == 'Felino':
+                    servicio_hospitalario.ingresarMascotaF(mas)
+                elif tipo == 'Canino':
+                    servicio_hospitalario.ingresarMascotaC(mas)
 
             else:
                 print("Ya existe una mascota con el numero de historia clínica ingresado.") 
